@@ -1,0 +1,90 @@
+project:
+  name: das-flwr-heatdemand
+  description: FL for Demand-Driven Estimation of District Heat Energy Consumption
+  author: Varsha
+  target_conference: SCAI 2026
+paths:
+  raw_data: data/raw/be_heat
+  processed_data: data/processed
+  external_data: data/external
+  logs: logs
+  paper_figures: das-fl-paper/paper/figures
+  paper_tables: das-fl-paper/paper/tables
+  weather_file: data/external/outdoor_temp_boras.csv
+data:
+  target: kwh
+  input_features:
+  - m3h
+  - ft
+  - rt
+  - dt
+  validation_only:
+  - cmwh
+  - cm3h
+  cross_check:
+  - m3hf
+  - mwh
+  quality:
+    kwh_max_valid: 500
+    kwh_sentinel: 99999.9
+    dt_min_valid: 0.0
+    ft_min_valid: 40.0
+    ft_max_valid: 130.0
+    rt_min_valid: 10.0
+    rt_max_valid: 80.0
+    min_hours_per_building: 8760
+    max_missing_pct: 10.0
+    exclude_buildings:
+    - REDACTED
+  time:
+    train_ratio: 0.7
+    val_ratio: 0.15
+    test_ratio: 0.15
+model:
+  baseline:
+    type: xgboost
+    lookback_hours: 168
+    forecast_horizon: 168
+    eval_horizons:
+    - 1
+    - 6
+    - 24
+    - 168
+  features:
+    lagged_kwh:
+    - 1
+    - 2
+    - 3
+    - 6
+    - 12
+    - 24
+    - 48
+    - 168
+    rolling_windows:
+    - 6
+    - 12
+    - 24
+    - 168
+    temporal_encoding: true
+    include_weather: true
+fl:
+  framework: flower
+  num_rounds: 50
+  local_epochs: 5
+  strategies:
+  - FedAvg
+  - FedProx
+  - PersonalizedFL
+  min_clients_per_round: 10
+evaluation:
+  metrics:
+  - rmse
+  - mae
+  - mape
+  - r2
+  scenarios:
+  - local_only
+  - centralized
+  - fedavg
+  - fedprox
+  - personalized_fl

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "heatdemand-estimate-app"
+version = "0.1.0"
+description = "Federated Learning Heat Demand Estimation with Flower"
+license = "Apache-2.0"
+dependencies = [
+    "flwr[simulation]>=1.26.1",
+    "tensorflow>=2.9.1, != 2.11.1 ; (platform_machine == \"x86_64\" or platform_machine == \"aarch64\")",
+    "tensorflow-macos>=2.9.1, != 2.11.1 ; sys_platform == \"darwin\" and platform_machine == \"arm64\"",
+]
+[tool.hatch.build.targets.wheel]
+packages = ["heatdemand-estimate-app/heat-estimate-app"]
+
+[tool.flwr.app]
+publisher = "flwrlabs"
+
+[tool.flwr.app.components]
+serverapp = "heat_estimate_app.server_app:app"
+clientapp = "heat_estimate_app.client_app:app"

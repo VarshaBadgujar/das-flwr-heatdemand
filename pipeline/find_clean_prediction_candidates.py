@@ -45,7 +45,10 @@ import pandas as pd
 # CONFIG
 # ============================================================
 
-OUTLIERS = {'B001', 'B037', 'B238', 'B028'}
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pipeline.anonymise_buildings import real_ids
+
+OUTLIERS = set(real_ids("B001", "B037", "B238", "B028"))
 
 LOCAL_MLP_CSV = 'logs/local_mlp_matched_results_250_v5_portfolio.csv'
 PERS_FL_CSV = 'logs/fl_personalised_final_fedadam_v5_portfolio.csv'

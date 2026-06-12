@@ -32,7 +32,7 @@ import matplotlib.ticker as mticker
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from pipeline.anonymise_buildings import load_mapping, anon_id
+from pipeline.anonymise_buildings import load_mapping, anon_id, real_ids
 
 # ============================================================
 # CONFIG
@@ -87,7 +87,7 @@ COLORS = {
     'weekend': '#D73027',
 }
 
-OUTLIER_BUILDINGS = [B001, B037, B238, B028]
+OUTLIER_BUILDINGS = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 
 MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

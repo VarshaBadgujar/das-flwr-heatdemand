@@ -428,7 +428,7 @@ if __name__ == "__main__":
     if not RAW_DATA_PATH.exists():
         print(f"\nERROR: Data path not found: {RAW_DATA_PATH}")
         print("Create symlink:")
-        print("  ln -sf /path/to/data/features/meter_data/heat/be data/raw/be_heat")
+        print("  ln -sf /path/to/raw/heat/meter/data data/raw/be_heat")
         sys.exit(1)
 
     pkl_count = len(glob.glob(str(RAW_DATA_PATH / "*.pkl")))

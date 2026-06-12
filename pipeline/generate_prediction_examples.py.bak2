@@ -43,7 +43,9 @@ except:
     def anon_id(bid, mapping=None):
         return f"B{int(bid)}"
 
-EXCLUDE = [B001, B037, B238, B028]
+from pipeline.anonymise_buildings import real_ids
+
+EXCLUDE = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 
 # Springer LNCS
 DOUBLE_COL = 6.7
@@ -95,7 +97,7 @@ def select_buildings():
     Panel (a): building where personalised FL MAE < local MLP MAE
                AND personalised FL MAE < FedAdam global MAE,
                with mean consumption > 1.5 kWh/h and R² > 0.3.
-    Panel (b)+(c): high-consumption building B176 (B176).
+    Panel (b)+(c): high-consumption building B176.
     """
     local = pd.read_csv(LOG_DIR / 'local_mlp_matched_results_250_v5_portfolio.csv')
     pers = pd.read_csv(LOG_DIR / 'fl_personalised_final_fedadam_v5_portfolio.csv')
@@ -136,9 +138,9 @@ def select_buildings():
     candidates.sort(key=lambda x: x[1], reverse=True)
     fl_best = candidates[0][0] if candidates else l.index[0]
 
-    # Panel (b)+(c): B176 = B176
-    peak_building = B176
-    local_wins_building = B095  # Local MLP wins by 46.7%
+    # Panel (b)+(c): B176; Local-wins building B095
+    peak_building = int(real_ids("B176")[0])
+    local_wins_building = int(real_ids("B095")[0])  # Local MLP wins by 46.7%
 
     buildings = {
         'fl_wins': fl_best,

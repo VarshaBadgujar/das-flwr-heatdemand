@@ -43,7 +43,9 @@ except:
     def anon_id(bid, mapping=None):
         return f"B{int(bid)}"
 
-EXCLUDE = [B001, B037, B238, B028]
+from pipeline.anonymise_buildings import real_ids
+
+EXCLUDE = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 
 # Springer LNCS
 DOUBLE_COL = 6.7
@@ -101,8 +103,8 @@ def select_buildings():
     Panel (c): B205 autumn (Sep 2-9,  mean 1.2), comparable
     """
     buildings = {
-        'panel_a': B156,  # winter, FL wins
-        'panel_b': B042,  # winter, Local wins
+        'panel_a': int(real_ids("B156")[0]),  # winter, FL wins
+        'panel_b': int(real_ids("B042")[0]),  # winter, Local wins
     }
 
     print("Selected buildings (hardcoded for v6):", flush=True)

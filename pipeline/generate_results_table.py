@@ -26,7 +26,10 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 LOG_DIR = PROJECT_ROOT / "logs"
 
-EXCLUDE = [B001, B037, B238, B028]
+sys.path.insert(0, str(PROJECT_ROOT))
+from pipeline.anonymise_buildings import real_ids
+
+EXCLUDE = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 HORIZONS = [1, 6, 24, 168]
 
 # ============================================================

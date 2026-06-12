@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from pipeline.anonymise_buildings import load_mapping, anon_id
+from pipeline.anonymise_buildings import load_mapping, anon_id, real_ids
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
@@ -36,7 +36,7 @@ LOG_DIR = PROJECT_ROOT / "logs"
 FIG_DIR = PROJECT_ROOT / "das-fl-paper" / "paper" / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
-OUTLIERS = [B001, B037, B238, B028]
+OUTLIERS = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 
 # Springer LNCS widths
 SINGLE_COL = 4.8

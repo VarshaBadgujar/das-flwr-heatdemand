@@ -15,6 +15,7 @@ Run:
     python pipeline/wilcoxon_test.py
 """
 
+import sys
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -24,6 +25,9 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 LOG_DIR = PROJECT_ROOT / "logs"
 
+sys.path.insert(0, str(PROJECT_ROOT))
+from pipeline.anonymise_buildings import real_ids
+
 # ── File paths ────────────────────────────────────────────────────────────────
 LOCAL_MLP_CSV   = LOG_DIR / "local_mlp_matched_results_250_v5_portfolio.csv"
 PERS_ADAM_CSV   = LOG_DIR / "fl_personalised_final_fedadam_v5_portfolio.csv"
@@ -31,7 +35,7 @@ PERS_PROX_CSV   = LOG_DIR / "fl_personalised_final_fedprox_v5_portfolio.csv"
 CENTRAL_MLP_CSV = LOG_DIR / "centralised_mlp_results_v5_portfolio.csv"
 
 # ── Outlier exclusion ─────────────────────────────────────────────────────────
-EXCLUDE = [B001, B037, B238, B028]
+EXCLUDE = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 
 
 def load_h1(path, label):

@@ -1,6 +1,6 @@
 """
 DAS-FL Project — Demand Forecast Demonstration
-Shows what the housing company(housing company) would actually receive from the FL framework:
+Shows what the housing company would actually receive from the FL framework:
   1. Per-building 168-hour (7-day) consumption forecasts
   2. Portfolio aggregation (total across all buildings)
   3. Peak hour identification (which buildings peak when)
@@ -219,7 +219,7 @@ def fig_portfolio_forecast(portfolio, save_path):
 
     fig, axes = plt.subplots(2, 1, figsize=(14, 10),
                               gridspec_kw={"height_ratios": [2, 1]})
-    fig.suptitle(f"the housing company Portfolio Demand Forecast — {n_bldg} Buildings Aggregated\n"
+    fig.suptitle(f"Housing Company Portfolio Demand Forecast — {n_bldg} Buildings Aggregated\n"
                  "Operational Channel: Each building sends forecast (not raw data) to the housing company",
                  fontsize=14, fontweight="bold")
 
@@ -313,7 +313,7 @@ def fig_peak_identification(portfolio, save_path):
 
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
     fig.suptitle("Peak Hour Analysis — Which Buildings Drive Network Peaks?\n"
-                 "(the housing company can use this to target peak-shaving interventions)",
+                 "(The housing company can use this to target peak-shaving interventions)",
                  fontsize=13, fontweight="bold")
 
     # (a) Top 10 peak contributors
@@ -362,7 +362,7 @@ def fig_peak_identification(portfolio, save_path):
 if __name__ == "__main__":
     print("=" * 60)
     print("DAS-FL — DEMAND FORECAST DEMONSTRATION")
-    print("What the housing company Would See from the FL Framework")
+    print("What the Housing Company Would See from the FL Framework")
     print("=" * 60)
 
     building_ids = load_fl_building_ids()
@@ -410,7 +410,7 @@ if __name__ == "__main__":
 These figures show the TWO-FLOW ARCHITECTURE in action:
   Flow 1 (Learning): FL trains the models (already done)
   Flow 2 (Operational): Each building produces forecasts → 
-    the housing company aggregates → identifies peaks → plans interventions
+    The housing company aggregates → identifies peaks → plans interventions
 
 This is what makes the paper "demand-driven" — buildings
 actively estimate their own consumption rather than being

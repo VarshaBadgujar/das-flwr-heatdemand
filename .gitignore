@@ -17,9 +17,14 @@ dist/
 .mypy_cache/
 
 # ---- Large data & generated outputs (do NOT push) ----
+# logs/ holds local-only files with REAL substation IDs:
+# building_id_mapping.json, excluded_substations.json, outlier_seed.json
 benchmark/
 data/
 logs/
+
+# ---- Local-only files (real substation IDs / private paths — never track) ----
+*.local.*
 
 # ---- Research paper draft (excluded per request) ----
 das-fl-paper/
@@ -68,3 +73,4 @@ Thumbs.db
 *~
 .idea/
 .vscode/
+

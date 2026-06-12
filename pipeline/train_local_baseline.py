@@ -18,7 +18,7 @@ Output:
 Run from project root:
     python pipeline/train_local_baseline.py              # all processed
     python pipeline/train_local_baseline.py --n 20       # first 20
-    python pipeline/train_local_baseline.py --buildings B001 REDACTED
+    python pipeline/train_local_baseline.py --buildings 123456 234567
 """
 
 import pandas as pd

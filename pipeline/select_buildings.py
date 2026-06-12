@@ -234,7 +234,7 @@ def display_table(df, sort_by="mean_consumption", top=20, min_consumption=None):
                   f"diurnal={best_24h.get('diurnal_variation', 'N/A')}, "
                   f"MAE={best_24h.get('local_mlp_mae', 'N/A')})")
 
-    # Best for demand demo: high consumption (shows the housing company value)
+    # Best for demand demo: high consumption (shows value to the housing company)
     if "mean_consumption" in df.columns and len(df) > 0:
         biggest = df.sort_values("mean_consumption", ascending=False).iloc[0]
         print(f"  Demand demo:  Building {biggest['building_id']} "

@@ -16,6 +16,7 @@ Usage:
 
 """
 
+import json
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -51,23 +52,40 @@ def load_building(filepath: str | Path) -> pd.DataFrame:
 
 # ── 2. CLEANING
 
+def _load_local_excluded_ids() -> set:
+    """Load locally-stored excluded substation IDs (gitignored).
+
+    The real substation IDs are kept out of version control in
+    logs/excluded_substations.json (see configs/config.yaml). The file maps a
+    reason -> list of ID strings, e.g. {"disconnected_meter": ["123456"]}.
+    Returns a set of ID strings; an empty set if the file is absent.
+    """
+    local_file = Path(__file__).resolve().parent.parent / "logs" / "excluded_substations.json"
+    if not local_file.exists():
+        return set()
+    with open(local_file) as f:
+        data = json.load(f)
+    return {str(b) for ids in data.values() for b in ids}
+
+
 def get_building_files(data_path: Path, config: dict, extension: str = "*.pkl") -> list[Path]:
     """Get list of building files, excluding blacklisted buildings.
-    
+
     Args:
         data_path: Directory containing building files.
         config: Project config dict.
         extension: File pattern to match.
-    
+
     Returns:
         Sorted list of file paths, excluding blacklisted buildings.
     """
     exclude = config.get("data", {}).get("quality", {}).get("exclude_buildings", [])
     exclude_ids = set(str(b) for b in exclude)
-    
+    exclude_ids |= _load_local_excluded_ids()
+
     files = sorted(data_path.glob(extension))
     files = [f for f in files if f.stem not in exclude_ids]
-    return files 
+    return files
 
 def clean_building(
     df: pd.DataFrame,

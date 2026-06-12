@@ -1,7 +1,12 @@
 # Oracle / Selective Deployment Analysis
+import sys
+from pathlib import Path
 import pandas as pd, numpy as np, json
 
-outliers = {'B001', 'B037', 'B238', 'B028'}
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pipeline.anonymise_buildings import real_ids
+
+outliers = set(real_ids("B001", "B037", "B238", "B028"))
 fl_bids = set(open('logs/fl_building_ids_250.txt').read().split())
 bids_246 = fl_bids - outliers
 

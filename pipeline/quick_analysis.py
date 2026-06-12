@@ -1,7 +1,12 @@
+import sys
+from pathlib import Path
 import pandas as pd
 import numpy as np
 
-exclude = [B001, B037, B238, B028]
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pipeline.anonymise_buildings import real_ids
+
+exclude = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 
 local = pd.read_csv('logs/local_mlp_matched_results_250.csv')
 pers = pd.read_csv('logs/fl_personalised_final_fedadam_v4.csv')

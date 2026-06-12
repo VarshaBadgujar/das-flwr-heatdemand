@@ -11,6 +11,7 @@ This script:
 5. Removes excluded buildings from data/processed/
 """
 
+import json
 import yaml
 import sys
 from pathlib import Path
@@ -18,7 +19,21 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = PROJECT_ROOT / "configs" / "config.yaml"
 
-EXCLUDE_BUILDINGS = [REDACTED]
+
+def _load_excluded_buildings():
+    """Excluded substation IDs are local-only: logs/excluded_substations.json.
+
+    Returns a list of int IDs, or [] if the gitignored file is absent.
+    """
+    local_file = PROJECT_ROOT / "logs" / "excluded_substations.json"
+    if not local_file.exists():
+        return []
+    with open(local_file) as f:
+        data = json.load(f)
+    return [int(b) for ids in data.values() for b in ids]
+
+
+EXCLUDE_BUILDINGS = _load_excluded_buildings()
 
 def patch_config():
     """Add exclude_buildings to config.yaml."""

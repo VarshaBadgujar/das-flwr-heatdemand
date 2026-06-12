@@ -13,13 +13,17 @@ Recipe matches pipeline/wilcoxon_test.py:
   - paired Wilcoxon signed-rank test on per-building MAE
 """
 
+import sys
 import pandas as pd
 import numpy as np
 from scipy.stats import wilcoxon
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pipeline.anonymise_buildings import real_ids
+
 LOG_DIR = Path("logs")
-OUTLIERS = {"B001", "B037", "B238", "B028"}
+OUTLIERS = set(real_ids("B001", "B037", "B238", "B028"))
 
 SCENARIOS = {
     "Local MLP":      "local_mlp_matched_results_250_v5",

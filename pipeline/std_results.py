@@ -1,6 +1,12 @@
 # This script computes the mean and standard deviation of MAE and R² for different scenarios, excluding certain building IDs.
+import sys
+from pathlib import Path
 import pandas as pd
-exclude = [B001, B037, B238, B028]
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pipeline.anonymise_buildings import real_ids
+
+exclude = [int(x) for x in real_ids("B001", "B037", "B238", "B028")]
 
 scenarios = [
     ('logs/centralised_xgboost_results_v2.csv', 'Centr XGB'),

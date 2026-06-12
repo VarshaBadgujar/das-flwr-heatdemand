@@ -43,8 +43,11 @@ from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pipeline.anonymise_buildings import real_ids
+
 # Paper-standard outlier filter (mirrors pipeline/wilcoxon_test.py)
-OUTLIER_BUILDINGS = {B001, B037, B238, B028}
+OUTLIER_BUILDINGS = {int(x) for x in real_ids("B001", "B037", "B238", "B028")}
 
 
 def apply_paper_filter(df: pd.DataFrame, horizon: int = 1) -> pd.DataFrame:

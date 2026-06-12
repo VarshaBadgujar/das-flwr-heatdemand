@@ -15,7 +15,7 @@ Output:
 Run from project root:
     python pipeline/build_features.py                  # all buildings
     python pipeline/build_features.py --n 20           # first 20 only
-    python pipeline/build_features.py --buildings B001 REDACTED  # specific
+    python pipeline/build_features.py --buildings 123456 234567  # specific
 """
 
 import pandas as pd
@@ -196,7 +196,7 @@ def main():
     )
     parser.add_argument(
         "--buildings", nargs="+", type=str, default=None,
-        help="Process specific building IDs (e.g., --buildings B001 REDACTED)."
+        help="Process specific building IDs (e.g., --buildings 123456 234567)."
     )
     args = parser.parse_args()
 

@@ -14,13 +14,13 @@ Usage:
   PYTHONPATH=. python pipeline/plot_24h_profile.py
 
   # Single building plot
-  PYTHONPATH=. python pipeline/plot_24h_profile.py --building-id REDACTED
+  PYTHONPATH=. python pipeline/plot_24h_profile.py --building-id 123456
 
   # Two-panel stacked figure (for paper)
-  PYTHONPATH=. python pipeline/plot_24h_profile.py --building-id REDACTED REDACTED
+  PYTHONPATH=. python pipeline/plot_24h_profile.py --building-id 123456 234567
 
   # Three or more panels
-  PYTHONPATH=. python pipeline/plot_24h_profile.py --building-id REDACTED REDACTED B001
+  PYTHONPATH=. python pipeline/plot_24h_profile.py --building-id 123456 234567 345678
 """
 
 import pandas as pd
@@ -252,8 +252,8 @@ def plot_multi_profile(profiles, bids, r2_values, save_path):
     """Create a stacked multi-panel figure for multiple buildings.
 
     Usage:
-        --building-id REDACTED REDACTED
-        Produces (a) Building REDACTED on top, (b) Building REDACTED below.
+        --building-id 123456 234567
+        Produces (a) Building 123456 on top, (b) Building 234567 below.
     """
     n = len(profiles)
     fig, axes = plt.subplots(n, 1, figsize=(10, 4 * n), sharex=True)

@@ -20,7 +20,7 @@ Usage:
     python pipeline/anonymise_buildings.py
 
     # Show mapping for specific buildings
-    python pipeline/anonymise_buildings.py --lookup B001 B037 B238 B028
+    python pipeline/anonymise_buildings.py --lookup 123456 234567
 
     # Show all mappings
     python pipeline/anonymise_buildings.py --show-all
@@ -41,8 +41,19 @@ LOG_DIR = PROJECT_ROOT / "logs"
 MAPPING_FILE = LOG_DIR / "building_id_mapping.json"
 FL_IDS_FILE = LOG_DIR / "fl_building_ids_250.txt"
 
-# Known outlier buildings (for highlighting in output)
-OUTLIER_BUILDINGS = [B001, B037, B238, B028]
+# Known outlier buildings, for highlighting in CLI output ONLY (not used to
+# build the mapping). The real IDs live in the gitignored logs/outlier_seed.json
+# so they stay out of version control; highlighting is silently skipped when the
+# seed file is absent (e.g. a fresh clone without local data).
+def _load_outlier_seed():
+    seed_file = LOG_DIR / "outlier_seed.json"
+    if not seed_file.exists():
+        return []
+    with open(seed_file) as f:
+        return json.load(f).get("outliers", [])
+
+
+OUTLIER_BUILDINGS = _load_outlier_seed()
 
 
 def create_mapping():
@@ -81,8 +92,8 @@ def anon_id(bid, mapping=None):
     Convert a real building ID to anonymised label.
     
     Usage:
-        label = anon_id(B001)          # → "B042" (example)
-        label = anon_id(B001, mapping)  # with pre-loaded mapping
+        label = anon_id(123456)          # → "B042" (example)
+        label = anon_id(123456, mapping)  # with pre-loaded mapping
     """
     if mapping is None:
         mapping = load_mapping()
@@ -95,6 +106,36 @@ def reverse_lookup(anon_label, mapping=None):
         mapping = load_mapping()
     reverse = {v: k for k, v in mapping.items()}
     return reverse.get(anon_label, None)
+
+
+def real_ids(*labels, mapping=None):
+    """Resolve anonymised labels (e.g. 'B045') back to real building IDs.
+
+    Requires the gitignored logs/building_id_mapping.json. Raises a clear
+    error telling the user to run `python pipeline/anonymise_buildings.py`
+    if the mapping is missing.
+    Returns a list of real-ID strings in the order given.
+    """
+    if mapping is None:
+        if not MAPPING_FILE.exists():
+            raise FileNotFoundError(
+                f"Building ID mapping not found: {MAPPING_FILE}\n"
+                "This gitignored file is required to resolve anonymised labels "
+                "back to real building IDs. Regenerate it with:\n"
+                "    python pipeline/anonymise_buildings.py\n"
+                "(requires the local building data)."
+            )
+        mapping = load_mapping()
+    reverse = {v: k for k, v in mapping.items()}
+    resolved = []
+    for label in labels:
+        if label not in reverse:
+            raise KeyError(
+                f"Anonymised label {label!r} not found in mapping {MAPPING_FILE}. "
+                f"Expected one of B001..B{len(mapping):03d}."
+            )
+        resolved.append(reverse[label])
+    return resolved
 
 
 def main():
@@ -161,7 +202,7 @@ def main():
         print(f"\n=== USAGE IN OTHER SCRIPTS ===", flush=True)
         print(f"  from pipeline.anonymise_buildings import load_mapping, anon_id", flush=True)
         print(f"  mapping = load_mapping()", flush=True)
-        print(f"  label = anon_id(B001, mapping)  # → {mapping.get('B001', '?')}", flush=True)
+        print(f"  label = anon_id(123456, mapping)  # → {mapping.get('123456', '?')}", flush=True)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+type: software
+title: "das-flwr-heatdemand: Personalised Federated Learning for District Heating Demand Estimation"
+authors:
+  - family-names: Badgujar
+    given-names: Varsha Kiran
+    orcid: "https://orcid.org/0009-0009-7450-4563"
+    affiliation: "Department of Information Technology, University of Borås, Sweden"
+  - family-names: Mbiydzenyuy
+    given-names: Gideon
+    orcid: "https://orcid.org/0000-0002-9685-7775"
+    affiliation: "Department of Information Technology, University of Borås, Sweden"
+repository-code: "https://github.com/VarshaBadgujar/das-flwr-heatdemand"
+license: Apache-2.0
+keywords:
+  - federated learning
+  - district heating
+  - demand forecasting
+  - time series
+  - Flower
+preferred-citation:
+  type: conference-paper
+  title: "Personalised Federated Learning for District Heating Demand Estimation under Portfolio Heterogeneity"
+  authors:
+    - family-names: Badgujar
+      given-names: Varsha Kiran
+      orcid: "https://orcid.org/0009-0009-7450-4563"
+    - family-names: Mbiydzenyuy
+      given-names: Gideon
+      orcid: "https://orcid.org/0000-0002-9685-7775"
+  collection-title: "Scandinavian Conference on Artificial Intelligence (SCAI 2026), Communications in Computer and Information Science"
+  publisher:
+    name: "Springer"
+  year: 2026
+  status: in-press
+  notes: "Conference held in Odense, Denmark, 15-16 June 2026. DOI to be added once the proceedings are published."

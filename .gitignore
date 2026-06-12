@@ -74,3 +74,6 @@ Thumbs.db
 .idea/
 .vscode/
 
+
+# ---- Exception: author-accepted paper version is tracked ----
+!paper/*.pdf
